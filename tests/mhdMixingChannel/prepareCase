@@ -1,0 +1,8 @@
+. sourceOF
+gmsh -3 furnace.geo -o furnace.msh -format msh2
+gmshToFoam furnace.msh
+changeDictionary
+decomposePar
+
+tar -xf meshElmer.tar.xz
+ElmerGrid 2 2 meshElmer -metis 14

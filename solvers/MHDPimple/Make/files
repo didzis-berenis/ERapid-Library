@@ -1,0 +1,3 @@
+MHDPimple.C
+
+EXE = $(FOAM_APPBIN)/MHDPimple

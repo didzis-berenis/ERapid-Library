@@ -1,3 +1,0 @@
-TableVisc.C
-
-LIB = $(FOAM_USER_LIBBIN)/libTableVisc

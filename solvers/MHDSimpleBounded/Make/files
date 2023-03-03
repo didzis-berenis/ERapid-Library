@@ -1,0 +1,3 @@
+MHDSimpleBounded.C
+
+EXE = $(FOAM_APPBIN)/MHDSimpleBounded

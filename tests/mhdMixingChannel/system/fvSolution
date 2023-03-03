@@ -1,0 +1,92 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver          GAMG;
+        smoother        GaussSeidel;
+        tolerance       1e-4;
+        relTol          0.05;
+
+        cacheAgglomeration no;
+        nCellsInCoarsestLevel 10;
+        agglomerator    faceAreaPair;
+        mergeLevels     1;
+    }
+
+    "(U|k|epsilon|omega|R|nuTilda)"
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-4;
+        relTol          0.1;
+    }
+
+    pFinal
+    {
+        $p;
+        relTol          0;
+    }
+
+    "(U|k|epsilon|omega|R|nuTilda)Final"
+    {
+        $U;
+        relTol          0;
+    }
+}
+
+PIMPLE
+{
+	//outerResidualControl
+	residualControl
+	{
+		U
+		{
+			tolerance  1e-3;
+			relTol      0;
+		}
+		p
+		{
+			tolerance  1e-3;
+			relTol      0;
+		}
+	}
+    momentumPredictor yes;
+    nOuterCorrectors    100;
+    nCorrectors         1;
+    nNonOrthogonalCorrectors 10;
+    pRefCell        0;
+	pRefValue 0;
+	turbOnFinalIterOnly no;
+}
+
+relaxationFactors
+{
+    fields
+    {
+        p               0.3;
+        pFinal   		1;
+    }
+    equations
+    {
+        "U|k|epsilon|omega|nuTilda.*"     	0.7;
+        "(U|k|epsilon|omega|nuTilda)Final"   	1;
+    }
+}
+// ************************************************************************* //

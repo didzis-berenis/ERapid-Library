@@ -1,0 +1,3 @@
+# Run calculation
+. sourceRapid
+mpirun --oversubscribe -np 2 MHDPimpleAverage -parallel -devices "(0 1)" : -np 14 ElmerSolver_mpi > log &

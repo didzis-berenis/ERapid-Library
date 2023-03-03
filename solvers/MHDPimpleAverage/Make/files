@@ -1,0 +1,3 @@
+MHDPimpleAverage.C
+
+EXE = $(FOAM_APPBIN)/MHDPimpleAverage

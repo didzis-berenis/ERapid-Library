@@ -1,3 +1,0 @@
-mhdVxBPimpleFoam.C
-
-EXE = $(FOAM_USER_APPBIN)/mhdVxBPimpleFoam

@@ -1,0 +1,74 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+Qinlet 0;//0.0001;
+//Uinlet = Qinlet / area
+Uinlet 0;//0.178571;
+internalField   uniform ($Uinlet 0 0);
+
+boundaryField
+{
+    left
+    {
+    	//no slip BC:
+        type            partialSlip;
+        valueFraction	uniform 1;
+    }
+    right
+    {
+    	//no slip BC:
+        type            partialSlip;
+        valueFraction	uniform 1;
+    }
+    top
+    {
+    	//no slip BC:
+        type            partialSlip;
+        valueFraction	uniform 1;
+    }
+    bot
+    {
+    	//no slip BC:
+        type            partialSlip;
+        valueFraction	uniform 1;
+    }
+    front
+    {
+    	//no slip BC:
+        type            partialSlip;
+        valueFraction	uniform 1;
+    	//inlet BC:
+    	/*
+        type            flowRateInletVelocity;
+        volumetricFlowRate    $Qinlet;
+        value           $internalField;
+        */
+    }
+    back
+    {
+    	//no slip BC:
+        type            partialSlip;
+        valueFraction	uniform 1;
+    	//outlet BC:
+    	/*
+        type            pressureInletOutletVelocity;
+        value           uniform (0 0 0);
+        */
+}
+
+// ************************************************************************* //

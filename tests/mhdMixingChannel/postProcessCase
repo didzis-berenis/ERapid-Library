@@ -1,0 +1,9 @@
+# Post process results
+. sourceOF
+reconstructPar
+rm constant/turbulenceProperties
+cp constant/turbulencePropertiesOF constant/turbulenceProperties
+#pimpleFoam -postProcess -noZero -func yPlus > results
+postProcess -func probe
+rm constant/turbulenceProperties
+cp constant/turbulencePropertiesRapid constant/turbulenceProperties
