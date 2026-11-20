@@ -185,7 +185,10 @@ decomposePar
 mpirun -np 2 mhdInterFoamv2606 -parallel : -np 2 ElmerSolver_mpi case.sif
 ```
   The variable is not set by default; the library and the launch order must
-  agree, so do not change it between building and running.
+  agree, so do not change it between building and running. Override sources
+  exist for v1812 and v2606 only (`libs/commSplit/<version>`); for other
+  releases `eofCompile` stops with a message and the native world split must
+  be used.
 
 * **Tests**: `tests/travisTests_v2606.sh` builds the libraries and runs
   `interpolationTest` and `levitation2Dv2606`. It sources the OpenFOAM

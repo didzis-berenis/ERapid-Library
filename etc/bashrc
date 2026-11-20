@@ -25,10 +25,19 @@ eofNeedsCommSplit() {
 
 eofCompile() {
     if eofNeedsCommSplit; then
-        wmake $EOF_SRC/commSplit
+        local major=${WM_PROJECT_VERSION%%.*}
+        if [ ! -d "$EOF_SRC/commSplit/$major" ]; then
+            echo "eofCompile: no commSplit libPstream override for OpenFOAM $WM_PROJECT_VERSION" >&2
+            echo "            (available: $(cd $EOF_SRC/commSplit && ls -d [0-9]* v* | tr '\n' ' '))" >&2
+            if [ -n "$EOF_COMMSPLIT" ]; then
+                echo "            unset EOF_COMMSPLIT to use the native world split (-mpi-split-by-appnum)" >&2
+            fi
+            return 1
+        fi
+        wmake $EOF_SRC/commSplit || return 1
     fi
-    wmake $EOF_SRC/coupleElmer
-    elmerf90 -o $EOF_SRC/Elmer2OpenFOAM.so -J$EOF_SRC $EOF_SRC/Elmer2OpenFOAM.F90
+    wmake $EOF_SRC/coupleElmer || return 1
+    elmerf90 -o $EOF_SRC/Elmer2OpenFOAM.so -J$EOF_SRC $EOF_SRC/Elmer2OpenFOAM.F90 || return 1
     elmerf90 -o $EOF_SRC/OpenFOAM2Elmer.so -J$EOF_SRC $EOF_SRC/OpenFOAM2Elmer.F90
 }
 
